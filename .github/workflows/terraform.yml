@@ -56,7 +56,8 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
-    environment: production
+    env:
+      environment: dev
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
@@ -78,6 +79,10 @@ jobs:
     - name: Terraform Init
       run: terraform init
 
+    # Create a new Terraform workspace or select an existing workspace
+    - name: Terraform Workspace
+      run: terraform workspace new ${{ env.environment }}
+      
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
       run: terraform fmt -check
